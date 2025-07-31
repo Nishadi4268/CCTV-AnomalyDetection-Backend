@@ -2,11 +2,17 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
 // Middleware to parse JSON - should be BEFORE routes
 app.use(express.json());
+app.use(cookieParser());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
 
 // CORS setup: allow your frontend origin
 app.use(cors({
