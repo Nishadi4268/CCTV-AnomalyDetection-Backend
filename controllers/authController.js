@@ -11,22 +11,36 @@ const users = [];
 
 exports.signup = async (req, res) => {
   try {
-    const { email, password, confirmPassword } = req.body;
+    const { firstName, lastName, email, password, confirmPassword } = req.body;
 
-    if (!email || !password || !confirmPassword) {
-      return res.status(400).json({ message: 'Please provide email, password and confirmPassword' });
+    // Validate required fields
+    if (!firstName || !lastName || !email || !password || !confirmPassword) {
+      return res.status(400).json({ message: 'Please provide first name, last name, email, password, and confirm password' });
     }
 
+    // Check if passwords match
     if (password !== confirmPassword) {
       return res.status(400).json({ message: 'Password and confirm password do not match' });
     }
 
+    // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists with this email' });
     }
-    const hashedPassword = await bcrypt.hash(password, 10); // hashed the password 
-    const newUser = new User({ email, password: hashedPassword });    await newUser.save();
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create and save the new user
+    const newUser = new User({
+      firstName,
+      lastName,
+      email,
+      password: hashedPassword
+    });
+
+    await newUser.save();
 
     res.status(201).json({ message: 'User created successfully' });
   } catch (err) {
@@ -34,6 +48,7 @@ exports.signup = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
 
 exports.signin = async (req, res) => {
   try {
