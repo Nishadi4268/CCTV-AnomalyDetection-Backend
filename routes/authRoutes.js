@@ -2,6 +2,11 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
 
+const nodemailer = require("nodemailer");
+const User = require("../models/User");
+
+
+
 router.post('/signup', authController.signup);
 router.post('/signin', authController.signin);
 router.post('/send-verification-email', authController.sendVerificationEmail);
@@ -22,5 +27,10 @@ router.get('/test-email', async (req, res) => {
     res.status(500).send('Failed to send test email');
   }
 });
+
+
+
+
+
 
 module.exports = router;

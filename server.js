@@ -25,6 +25,9 @@ app.use(cors({
 const authRoutes = require('./routes/authRoutes');
 app.use('/api/auth', authRoutes);
 
+const otpRoutes = require("./routes/otpRoutes");
+app.use("/api", otpRoutes);
+
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/CCTV', {
   useNewUrlParser: true,
