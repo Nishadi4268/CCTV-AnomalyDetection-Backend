@@ -115,6 +115,12 @@ exports.sendVerificationEmail = async (req, res) => {
       return res.status(400).json({ error: 'Invalid email format' });
     }
 
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ error: 'Email already exists' });
+    }
+    
     // Generate verification token (6-digit OTP)
     const token = crypto.randomInt(100000, 999999).toString();
     const expiresAt = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes expiry
