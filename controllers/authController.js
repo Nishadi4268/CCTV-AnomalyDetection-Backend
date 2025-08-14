@@ -143,7 +143,7 @@ exports.sendVerificationEmail = async (req, res) => {
 
     // Send email
     await transporter.sendMail({
-  from: `"Your App Name" <${process.env.EMAIL_USER}>`,
+  from: `"SafeVision Email Verification" <${process.env.EMAIL_USER}>`,
   to: email,
   subject: '✨ Your Verification Code for SafeVision',
   html: `
